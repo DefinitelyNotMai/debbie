@@ -120,6 +120,7 @@ git clone https://github.com/DefinitelyNotMai/dotfiles.git /tmp/dotfiles
 cp -rvi /tmp/dotfiles/config/lf /tmp/dotfiles/config/shell /tmp/dotfiles/config/tmux \
 	/tmp/dotfiles/config/wget "$HOME"/.config
 cp -rvi /tmp/dotfiles/config/nvim/plugin "$HOME"/.config/nvim/plugin
+sed -i "s/shell-history.*$/shell-history\/history.txt/" "$HOME"/.config/shell/mksh/.mkshrc
 ln -sf "$HOME"/.config/shell/profile "$HOME"/.profile
 ln -sf "$HOME"/.config/shell/mksh/.mkshrc "$HOME"/.mkshrc
 sed -i "47d;46d;45d;44d;" "$HOME"/.config/shell/profile
@@ -264,3 +265,4 @@ sudo mv /usr/share/geoserver/data_dir /srv/syncthing/geodata
 sudo mkdir /srv/syncthing/geodata/custom
 sudo chown -R www-data:www-data /srv/syncthing/geodata
 sudo systemctl enable --now geoserver@www-data
+sudo chsh -s /bin/mksh
