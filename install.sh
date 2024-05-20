@@ -6,7 +6,7 @@ error() {
 }
 
 input() {
-	printf "[\033[1;34mERROR\033[0m] %s\n" "$1"
+	printf "[\033[1;34mINPUT\033[0m] %s\n" "$1"
 }
 
 newline() {
