@@ -83,8 +83,8 @@ done
 
 # make sure all packages in system are up-to-date, and install base packages
 sudo apt update && sudo apt dist-upgrade
-sudo apt install -y build-essential cmake curl fzf golang-go libssl-dev pkg-config \
-	mksh ssh tmux ufw unzip wget
+sudo apt install -y build-essential cmake curl fzf gettext golang-go libssl-dev pkg-config \
+	mksh ninja-build ssh tmux ufw unzip wget
 
 # firewall and ssh configuration
 sudo systemctl enable --now ufw
