@@ -42,6 +42,13 @@ while true; do
 	read -r IP
 	newline
 	if ! ping -c 3 > /dev/null 2>&1; then
+		sudo sed -i "s/dhcp/static/" /etc/network/interfaces
+		sh -c '{
+			printf "    address %s\n" "$IP"
+			printf "    netmask 255.255.255.0\n"
+			printf "    gateway 192.168.1.1\n"
+			printf "    dns-nameservers 9.9.9.9\n"
+		}' | sudo tee -a /etc/network/interfaces > /dev/null 2>&1
 		success "IP has been set to $IP"
 		break
 	else
