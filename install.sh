@@ -26,11 +26,13 @@ success() {
 DB_USER="$(whoami)"
 DB_PASS1=""
 DB_PASS2=""
+GATEWAY=""
 IP=""
 PORT_SSH=""
 export DB_USER
 export DB_PASS1
 export DB_PASS2
+export GATEWAY
 export IP
 export PORT_SSH
 
@@ -40,13 +42,14 @@ ip a
 while true; do
 	input "Enter desired IP address for this device."
 	read -r IP
+	GATEWAY=$(echo "$IP" | awk -F. '{print $1"."$2"."$3}')
 	newline
 	if ! ping -c 3 > /dev/null 2>&1; then
 		sudo sed -i "s/dhcp/static/" /etc/network/interfaces
 		sh -c '{
 			printf "    address %s\n" "$IP"
 			printf "    netmask 255.255.255.0\n"
-			printf "    gateway 192.168.1.1\n"
+			printf "    gateway %s.1\n" "$GATEWAY"
 			printf "    dns-nameservers 9.9.9.9\n"
 		}' | sudo tee -a /etc/network/interfaces > /dev/null 2>&1
 		sudo systemctl restart networking
