@@ -5,12 +5,19 @@ clear
 printf "[INPUT]: Enter desired number between 1024 and 65535 to use as port for SSH: "
 read -r PORT_SSH
 
+# add repository for pgadmin
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+
 # make sure system is up-to-date and install packages
 sudo apt update && sudo apt dist-upgrade
 sudo apt install build-essential cmake curl fzf golang-go libssl-dev \
 	mksh ssh tmux ufw unzip wget apache2 default-jdk default-jre libapache2-mod-php \
 	mariadb-server php-cgi php-cli php-curl php-gd php-mbstring php-mysql php-xml \
-	php-zip pkg-config postgis postgresql pgadmin4 syncthing
+	php-zip pkg-config postgis postgresql pgadmin4-web syncthing
+
+# pgadmin
+sudo /usr/pgadmin4/bin/setup-web.sh
 
 # firewall and ssh configuration
 sudo systemctl enable --now ufw
