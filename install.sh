@@ -70,8 +70,12 @@ while true; do
 	read -r PORT_SSH
 	newline
 	if [ "$PORT_SSH" -ge 1024 ] && [ "$PORT_SSH" -le 65536 ]; then
-		success "SSH port has been set to $PORT_SSH"
-		break
+		if nc -z -v -w5 localhost "$PORT_SSH"; then
+			error "Port $PORT_SSH is already in use by another program. Please choose a different port."
+		else
+			success "SSH port has been set to $PORT_SSH"
+			break
+		fi
 	else
 		error "Make sure number is between 1024 and 65536. Try again."
 	fi
