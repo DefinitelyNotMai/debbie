@@ -19,7 +19,7 @@ usermod -aG sudo <your user>
 git clone https://github.com/DefinitelyNotMai/debbie.git /tmp/debbie
 cd /tmp/debbie
 chmod +x install.sh
-./deb.sh
+./install.sh
 ```
 
 4. After running the script, either reboot your system or simply log out and log back in.
