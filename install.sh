@@ -1,9 +1,66 @@
 #!/bin/sh
 
+# formatting
+error() {
+	printf "[\033[1;31mERROR\033[0m] %s\n" "$1"
+}
+
+input() {
+	printf "[\033[1;34mERROR\033[0m] %s\n" "$1"
+}
+
+newline() {
+	printf "\n"
+}
+
+step() {
+	clear
+	printf "[\033[1;33mSTEP\033[0m] %s\n" "$1"
+}
+
+success() {
+	printf "[\033[1;32mSUCCESS\033[0m] %s\n" "$1"
+}
+
+# variables
+DB_USER="$(whoami)"
+DB_PASS1=""
+DB_PASS2=""
+PORT_SSH=""
+export DB_USER
+export DB_PASS1
+export DB_PASS2
+export PORT_SSH
+
 # user input
-clear
-printf "[INPUT]: Enter desired number between 1024 and 65535 to use as port for SSH: "
-read -r PORT_SSH
+step "User Input"
+stty -echo
+while true; do
+	input "Enter desired password for database: "
+	read -r DB_PASS1
+	input "Re-enter password for database: "
+	read -r DB_PASS2
+	newline
+	if [ "$DB_PASS1" = "$DB_PASS2" ]; then
+		success "Password for database has been set."
+		break
+	else
+		error "Passwords do not match. Try again."
+	fi
+done
+stty echo
+
+while true; do
+	input "Enter a number between 1024 and 65536 to use as port for SSH: "
+	read -r PORT_SSH
+	newline
+	if [ "$PORT_SSH" -ge 1024 ] && [ "$PORT_SSH" -le 65536 ]; then
+		success "SSH port has been set to $PORT_SSH"
+		break
+	else
+		error "Make sure number is between 1024 and 65536. Try again."
+	fi
+done
 
 # make sure all packages in system are up-to-date, and install base packages
 sudo apt update && sudo apt dist-upgrade
@@ -67,16 +124,10 @@ sudo systemctl restart apache2
 
 # mariadb
 sudo systemctl enable --now mariadb
-clear
-printf "[ALERT]: Entering MariaDB session. Please entere these queries one by one:\n"
-printf "\`\`\`\n"
-printf "CREATE DATABASE nextcloud;\n"
-printf "CREATE USER '<your username>'@'localhost' IDENTIFIED BY '<your user password>';\n"
-printf "GRANT ALL PRIVILEGES ON nextcloud.* to '<your username>'@'localhost';\n"
-printf "FLUSH ALL PRIVILEGES;\n"
-printf "EXIT;\n"
-printf "\`\`\`\n"
-sudo mysql -u root
+sudo mysql -u root -e "CREATE DATABASE nextcloud;"
+sudo mysql -u root -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';"
+sudo mysql -u root -e "GRAND ALL PRIVILEGES ON nextcloud.* to '$DB_USER'@'localhost';"
+sudo mysql -u root -e "FLUSH ALL PRIVILEGES;"
 
 # nextcloud
 wget https://download.nextcloud.com/server/releases/latest.zip -O "$HOME"/downloads/latest.zip
