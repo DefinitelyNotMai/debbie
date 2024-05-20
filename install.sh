@@ -26,14 +26,29 @@ success() {
 DB_USER="$(whoami)"
 DB_PASS1=""
 DB_PASS2=""
+IP=""
 PORT_SSH=""
 export DB_USER
 export DB_PASS1
 export DB_PASS2
+export IP
 export PORT_SSH
 
 # user input
 step "User Input"
+ip a
+while true; do
+	input "Enter desired IP address for this device."
+	read -r IP
+	newline
+	if ! ping -c 3 > /dev/null 2>&1; then
+		success "IP has been set to $IP"
+		break
+	else
+		error "IP $IP is already taken. Please enter a different IP address."
+	fi
+done
+
 stty -echo
 while true; do
 	input "Enter desired password for database: "
@@ -138,7 +153,7 @@ sh -c '{
 	printf "<VirtualHost *:80>\n"
 	printf "\tServerAdmin admin@example.com\n"
 	printf "\tDocumentRoot /var/www/html/nextcloud/\n"
-	printf "\tServerName 0.0.0.0\n"
+	printf "\tServerName %s\n" "$IP"
 	printf "\tAlias /nextcloud \"/var/www/html/nextcloud/\"\n\n"
 	printf "\t<Directory /var/www/html/nextcloud/>\n"
 	printf "\t\tOptions +FollowSymlinks\n"
