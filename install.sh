@@ -208,7 +208,7 @@ sudo mkdir /srv/syncthing
 sudo chown www-data:www-data /srv/syncthing
 sh -c '{
 	printf "[Unit]\n"
-	printf "Description=Syncthing - Open Source Continuous File Synchronization for %s\n "%I"
+	printf "Description=Syncthing - Open Source Continuous File Synchronization for %s\n" "%I"
 	printf "Documentation=man:syncthing(1)\n"
 	printf "After=network.target\n"
 	printf "StartLimitIntervalSec=60\n"
