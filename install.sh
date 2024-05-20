@@ -49,6 +49,7 @@ while true; do
 			printf "    gateway 192.168.1.1\n"
 			printf "    dns-nameservers 9.9.9.9\n"
 		}' | sudo tee -a /etc/network/interfaces > /dev/null 2>&1
+		sudo systemctl restart networking
 		success "IP has been set to $IP"
 		break
 	else
