@@ -214,7 +214,7 @@ sh -c '{
 	printf "StartLimitBurst=4\n\n"
 	printf "[Service]\n"
 	printf "User=www-data\n"
-	printf "ExecStart=/usr/bin/syncthing serve --no-browser --no-restart --home=/opt/syncthing-config --logflags=3 --logfile=/var/log/syncthing.log\n
+	printf "ExecStart=/usr/bin/syncthing serve --no-browser --no-restart --home=/opt/syncthing-config --logflags=3 --logfile=/var/log/syncthing.log\n"
 	printf "Restart=on-failure\n"
 	printf "RestartSec=1\n"
 	printf "SuccessExitStatus=3 4\n"
@@ -254,8 +254,8 @@ sh -c '{
 	printf "ExecStart=/bin/sh /usr/share/geoserver/bin/startup.sh\n"
 	printf "Restart=always\n"
 	printf "RestartSec=5\n"
-	printf "Environment=GEOSERVER_HOME=/usr/share/geoserver\n
-	printf "Environment=GEOSERVER_DATA_DIR=/srv/syncthing/geodata\n\n
+	printf "Environment=GEOSERVER_HOME=/usr/share/geoserver\n"
+	printf "Environment=GEOSERVER_DATA_DIR=/srv/syncthing/geodata\n\n"
 	printf "[Install]\n"
 	printf "WantedBy=multi-user.target\n"
 }' | sudo tee /lib/systemd/system/geoserver@www-data.service
