@@ -144,9 +144,9 @@ sudo systemctl restart apache2
 # mariadb
 sudo systemctl enable --now mariadb
 sudo mysql -u root -e "CREATE DATABASE nextcloud;"
-sudo mysql -u root -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';"
-sudo mysql -u root -e "GRAND ALL PRIVILEGES ON nextcloud.* to '$DB_USER'@'localhost';"
-sudo mysql -u root -e "FLUSH ALL PRIVILEGES;"
+sudo mysql -u root -e "CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS1';"
+sudo mysql -u root -e "GRANT ALL PRIVILEGES ON nextcloud.* to '$DB_USER'@'localhost';"
+sudo mysql -u root -e "FLUSH PRIVILEGES;"
 
 # nextcloud
 wget https://download.nextcloud.com/server/releases/latest.zip -O "$HOME"/downloads/latest.zip
