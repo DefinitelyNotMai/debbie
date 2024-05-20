@@ -5,19 +5,10 @@ clear
 printf "[INPUT]: Enter desired number between 1024 and 65535 to use as port for SSH: "
 read -r PORT_SSH
 
-# add repository for pgadmin
-curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-
-# make sure system is up-to-date and install packages
+# make sure all packages in system are up-to-date, and install base packages
 sudo apt update && sudo apt dist-upgrade
-sudo apt install build-essential cmake curl fzf golang-go libssl-dev \
-	mksh ssh tmux ufw unzip wget apache2 default-jdk default-jre libapache2-mod-php \
-	mariadb-server php-cgi php-cli php-curl php-gd php-mbstring php-mysql php-xml \
-	php-zip pkg-config postgis postgresql pgadmin4-web syncthing
-
-# pgadmin
-sudo /usr/pgadmin4/bin/setup-web.sh
+sudo apt install -y build-essential cmake curl fzf golang-go libssl-dev pkg-config \
+	mksh ssh tmux ufw unzip wget
 
 # firewall and ssh configuration
 sudo systemctl enable --now ufw
@@ -64,6 +55,8 @@ printf "export RUSTC_WRAPPER=sccache\n" >> "$HOME"/.config/shell/profile
 cargo install pfetch
 
 # apache2
+sudo apt install -y apache2 libapache2-mod-php mariadb-server php-cgi php-cli php-curl php-gd \
+	php-mbstring php-mysql php-xml php-zip
 sudo systemctl enable --now apache2
 sudo sed -i "s/memory_limit = 128M/memory_limit = 512M/" /etc/php/8.2/apache2/php.ini
 sudo sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 500M/" /etc/php/8.2/apache2/php.ini
@@ -126,6 +119,7 @@ sudo sed -i "s/^);$/  'skeletondirectory' => '',/" /var/www/html/nextcloud/confi
 printf ");\n" | sudo tee -a /var/www/html/nextcloud/config/config.php > /dev/null 2>&1
 
 # syncthing
+sudo apt install syncthing
 sudo mkdir /opt/syncthing-config
 sudo chown www-data:www-data /opt/syncthing-config
 sudo mkdir /srv/syncthing
@@ -159,6 +153,11 @@ sudo sed -i "s/127.0.0.1/0.0.0.0/" /opt/syncthing-config/config.xml
 sudo systemctl restart syncthing@www-data
 
 # geoserver
+curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+sudo apt update
+sudo apt install -y default-jdk default-jre postgis postgresql pgadmin4-web
+sudo /usr/pgadmin4/bin/setup-web.sh
 sudo mkdir /usr/share/geoserver
 sudo chown www-data:www-data /usr/share/geoserver
 wget https://build.geoserver.org/geoserver/main/geoserver-main-latest-bin.zip -O "$HOME"/downloads/geoserver-main-latest-bin.zip
