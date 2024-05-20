@@ -264,5 +264,6 @@ sudo sed -i "201d;196d;163d;142d;" /usr/share/geoserver/webapps/geoserver/WEB-IN
 sudo mv /usr/share/geoserver/data_dir /srv/syncthing/geodata
 sudo mkdir /srv/syncthing/geodata/custom
 sudo chown -R www-data:www-data /srv/syncthing/geodata
+sudo shred -uvz /usr/share/geoserver/webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
 sudo systemctl enable --now geoserver@www-data
 sudo chsh -s /bin/mksh
