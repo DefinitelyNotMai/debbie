@@ -1,6 +1,10 @@
 #!/bin/sh
 
 # formatting
+alert() {
+	printf "[\033[1;31mALERT\033[0m] %s\n" "$1"
+}
+
 error() {
 	printf "[\033[1;31mERROR\033[0m] %s\n" "$1"
 }
@@ -194,7 +198,7 @@ sudo a2enmod dir
 sudo a2enmod mime
 sudo systemctl restart apache2
 clear
-printf "[ALERT]: To finish Nextcloud installation, please open <your server's ip> in your browser and fill in the form.\n"
+alert "To finish Nextcloud installation, please open <your server's ip> in your browser and fill in the form."
 printf "Press <Enter> when you have finished to continue.\n"
 read -r ans
 sudo sed -i "s/^);$/  'skeletondirectory' => '',/" /var/www/html/nextcloud/config/config.php
@@ -232,6 +236,7 @@ sh -c '{
 sudo systemctl enable --now syncthing@www-data
 sudo systemctl stop syncthing@www-data
 sudo sed -i "s/127.0.0.1/0.0.0.0/" /opt/syncthing-config/config.xml
+alert "Text editor will be opened. Inside the file, please change '127.0.0.1' to '0.0.0.0'."
 sudo systemctl restart syncthing@www-data
 
 # geoserver
