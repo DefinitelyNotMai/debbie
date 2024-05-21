@@ -131,7 +131,7 @@ sed -i "47d;46d;45d;44d;" "$HOME"/.config/shell/profile
 . "$HOME"/.profile
 
 # install neovim (editor)
-git clone https://github.com/neovim/neovim "$HOME"/.local/src/neovim
+git clone --depth=1 https://github.com/neovim/neovim "$HOME"/.local/src/neovim
 cd "$HOME"/.local/src/neovim || exit
 make CMAKE_BUILD_TYPE=Release
 sudo make install
