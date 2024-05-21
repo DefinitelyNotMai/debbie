@@ -266,4 +266,4 @@ sudo mkdir /srv/syncthing/geodata/custom
 sudo chown -R www-data:www-data /srv/syncthing/geodata
 sudo shred -uvz /usr/share/geoserver/webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
 sudo systemctl enable --now geoserver@www-data
-sudo chsh -s /bin/mksh
+chsh -s /bin/mksh
