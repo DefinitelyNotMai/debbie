@@ -10,7 +10,7 @@ error() {
 }
 
 input() {
-	printf "[\033[1;34mINPUT\033[0m] %s\n" "$1"
+	printf "[\033[1;34mINPUT\033[0m] %s" "$1"
 }
 
 newline() {
@@ -44,7 +44,7 @@ export PORT_SSH
 step "User Input"
 ip a
 while true; do
-	input "Enter desired IP address for this device."
+	input "Enter desired IP address for this device: "
 	read -r IP
 	GATEWAY=$(echo "$IP" | awk -F. '{print $1"."$2"."$3}')
 	newline
