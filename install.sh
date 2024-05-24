@@ -85,7 +85,7 @@ while true; do
 	read -r PORT_SSH
 	newline
 	if [ "$PORT_SSH" -ge 1024 ] && [ "$PORT_SSH" -le 65536 ]; then
-		if nc -z -v -w5 localhost "$PORT_SSH"; then
+		if nc -z -v -w5 localhost "$PORT_SSH" >/dev/null 2>&1; then
 			error "Port $PORT_SSH is already in use by another program. Please choose a different port."
 		else
 			success "SSH port has been set to $PORT_SSH"
@@ -232,7 +232,7 @@ sh -c '{
 	printf "NoNewPrivileges=true\n\n"
 	printf "[Install]\n"
 	printf "WantedBy=multi-user.target\n"
-}' | sudo tee /lib/systemd/system/syncthing@www-data.service
+}' | sudo tee /lib/systemd/system/syncthing@www-data.service > /dev/null 2>&1
 sudo systemctl enable --now syncthing@www-data
 sudo systemctl stop syncthing@www-data
 alert "Text editor will be opened. Inside the file, please change '127.0.0.1' to '0.0.0.0'."
@@ -266,7 +266,7 @@ sh -c '{
 	printf "Environment=GEOSERVER_DATA_DIR=/srv/syncthing/geodata\n\n"
 	printf "[Install]\n"
 	printf "WantedBy=multi-user.target\n"
-}' | sudo tee /lib/systemd/system/geoserver@www-data.service
+}' | sudo tee /lib/systemd/system/geoserver@www-data.service > /dev/null 2>&1
 sudo sed -i "201d;196d;163d;142d;" /usr/share/geoserver/webapps/geoserver/WEB-INF/web.xml
 sudo mv /usr/share/geoserver/data_dir /srv/syncthing/geodata
 sudo mkdir /srv/syncthing/geodata/custom
