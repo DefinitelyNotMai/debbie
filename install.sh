@@ -269,7 +269,7 @@ sh -c '{
 }' | sudo tee /lib/systemd/system/geoserver@www-data.service > /dev/null 2>&1
 sudo sed -i "201d;196d;163d;142d;" /usr/share/geoserver/webapps/geoserver/WEB-INF/web.xml
 sudo mv /usr/share/geoserver/data_dir /srv/syncthing/geodata
-sudo mkdir /srv/syncthing/geodata/custom
+sudo mkdir /srv/syncthing/geodata/custom/shapefiles
 sudo chown -R www-data:www-data /srv/syncthing/geodata
 sudo shred -uvz /usr/share/geoserver/webapps/geoserver/WEB-INF/lib/marlin-0.9.3.jar
 sudo systemctl enable --now geoserver@www-data
