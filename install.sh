@@ -238,7 +238,7 @@ sudo systemctl stop syncthing@www-data
 alert "Text editor will be opened. Inside the file, please change '127.0.0.1' to '0.0.0.0'."
 printf "Press <Enter> to continue.\n"
 read -r ans
-sudo nvim /opt/sycthing-config/config.xml
+sudo nvim /opt/syncthing-config/config.xml
 sudo systemctl restart syncthing@www-data
 
 # geoserver
