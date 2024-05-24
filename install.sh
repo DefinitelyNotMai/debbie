@@ -242,11 +242,12 @@ sudo nvim /opt/syncthing-config/config.xml
 sudo systemctl restart syncthing@www-data
 
 # geoserver
-curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-sudo apt update
-sudo apt install -y default-jdk default-jre postgis postgresql pgadmin4-web
-sudo /usr/pgadmin4/bin/setup-web.sh
+#curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
+#sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
+#sudo apt update
+#postgis postgresql pgadmin4-web
+#sudo /usr/pgadmin4/bin/setup-web.sh
+sudo apt install -y default-jdk default-jre
 sudo mkdir /usr/share/geoserver
 sudo chown www-data:www-data /usr/share/geoserver
 wget https://build.geoserver.org/geoserver/main/geoserver-main-latest-bin.zip -O "$HOME"/downloads/geoserver-main-latest-bin.zip
